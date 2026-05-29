@@ -1,50 +1,67 @@
 @import "tailwindcss";
 
+@theme {
+    --color-bg-primary: var(--bg-primary);
+    --color-text-primary: var(--text-primary);
+    --color-border-primary: var(--border-primary);
+
+    --spacing-space-sm: 0.5rem;
+    --spacing-space-md: 1rem;
+    --spacing-space-lg: 2rem;
+
+    --font-sans: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+}
+
 @layer base {
-	:root {
-		@apply text-[rgba(255,255,255,0.87)] bg-[#242424] font-sans;
-	}
+    :root {
+        --bg-primary: #ffffff;
+        --text-primary: #000000;
+        --border-primary: #000000;
+    }
 
-	body {
-		@apply grid place-items-center min-w-[320px] min-h-screen relative m-0;
-	}
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --bg-primary: #000000;
+            --text-primary: #ffffff;
+            --border-primary: #ffffff;
+        }
+    }
+
+    html,
+    body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: var(--font-sans);
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+    }
 }
 
-body::before {
-	content: "";
-	position: fixed;
-	inset: 0;
-	z-index: -1;
-	opacity: 0.05;
-	background: url("./logo.svg");
-	background-size: 256px;
-	transform: rotate(-12deg) scale(1.35);
-	animation: slide 30s linear infinite;
-	pointer-events: none;
-}
+@layer components {
+    /* Reusable Component Primitives */
+    .layout-shell {
+        @apply min-h-screen p-space-md flex flex-col gap-space-md bg-[var(--bg-primary)] text-[var(--text-primary)];
+    }
 
-@keyframes slide {
-	from {
-		background-position: 0 0;
-	}
-	to {
-		background-position: 256px 224px;
-	}
-}
+    .card-surface {
+        @apply bg-[var(--bg-primary)] text-[var(--text-primary)] border-[var(--border-primary)] border-2 p-space-md transition-all;
+    }
 
-@keyframes spin {
-	from {
-		transform: rotate(0);
-	}
-	to {
-		transform: rotate(360deg);
-	}
-}
+    .btn-primary {
+        @apply bg-[var(--text-primary)] text-[var(--bg-primary)] border-[var(--border-primary)] border-2 px-space-md py-space-sm font-bold transition-transform active:scale-95 cursor-pointer hover:opacity-90;
+    }
 
-@media (prefers-reduced-motion) {
-	*,
-	::before,
-	::after {
-		animation: none !important;
-	}
+    /* Semantic Typography Scale */
+    .text-heading-lg {
+        @apply text-2xl font-black uppercase tracking-tight;
+    }
+
+    .text-heading-md {
+        @apply text-lg font-bold;
+    }
+
+    .text-body {
+        @apply text-base font-normal leading-relaxed;
+    }
 }
