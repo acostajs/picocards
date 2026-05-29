@@ -30,3 +30,27 @@ class ProjectRead(ProjectBase):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class CardBase(BaseModel):
+    question: str = Field(..., description="Front canvas content (question)")
+    answer: str = Field(..., description="Back canvas solution (answer)")
+
+
+class CardCreate(CardBase):
+    pass
+
+
+class CardUpdate(BaseModel):
+    question: str | None = Field(
+        default=None, description="Updated front canvas content"
+    )
+    answer: str | None = Field(default=None, description="Updated back canvas solution")
+
+
+class CardRead(CardBase):
+    id: str
+    project_id: str
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)

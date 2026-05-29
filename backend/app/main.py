@@ -2,6 +2,7 @@
 from fastapi import Depends, FastAPI
 
 from app.core.security import get_current_user
+from app.routes.cards import router as cards_router
 from app.routes.projects import router as projects_router
 
 app = FastAPI(title="PicoCards API Layer")
@@ -21,3 +22,4 @@ async def get_me(user_id: str = Depends(get_current_user)) -> dict[str, str]:
 
 # Mount domain-separated routers
 app.include_router(projects_router)
+app.include_router(cards_router)
