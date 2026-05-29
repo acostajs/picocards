@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useRouter } from "../../components/Router";
+import { useNavigate } from "react-router-dom";
 import { type Language, useLanguage } from "../../context/LanguageContext";
 import { useTheme } from "../../context/ThemeContext";
 import { locales } from "./Homepage.locales";
@@ -19,7 +19,7 @@ function getCookie(name: string): string | null {
 }
 
 export function Homepage() {
-    const { navigate } = useRouter();
+    const navigate = useNavigate();
     const { language, setLanguage } = useLanguage();
     const { theme, toggleTheme } = useTheme();
 
