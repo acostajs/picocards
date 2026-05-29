@@ -2,6 +2,7 @@ import { locales } from "./App.locales";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { useRouter } from "./components/Router";
 import { useLanguage } from "./context/LanguageContext";
+import { Dashboard } from "./pages/Dashboard/Dashboard";
 import "./index.css";
 import { Homepage } from "./pages/Homepage/Homepage";
 
@@ -33,22 +34,7 @@ export function App() {
     if (path === "/dashboard") {
         return (
             <ProtectedRoute>
-                <div className="layout-shell">
-                    <header className="card-surface flex flex-col md:flex-row justify-between items-center gap-space-sm">
-                        <span className="text-heading-lg">
-                            {t.dashboardTitle}
-                        </span>
-                        <a href="/" className="btn-primary no-underline">
-                            {t.backToHome}
-                        </a>
-                    </header>
-                    <main className="flex-1 flex flex-col items-center justify-center p-space-lg text-center gap-space-md">
-                        <h1 className="text-heading-lg text-4xl">
-                            {t.workspaceTitle}
-                        </h1>
-                        <p className="text-body text-lg">{t.workspaceDesc}</p>
-                    </main>
-                </div>
+                <Dashboard />
             </ProtectedRoute>
         );
     }
