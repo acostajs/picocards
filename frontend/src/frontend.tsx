@@ -10,6 +10,7 @@ import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { Router } from "./components/Router";
 import { LanguageProvider } from "./context/LanguageContext";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const elem = document.getElementById("root");
 if (!elem) {
@@ -18,9 +19,11 @@ if (!elem) {
 const app = (
     <StrictMode>
         <LanguageProvider>
-            <Router>
-                <App />
-            </Router>
+            <ThemeProvider>
+                <Router>
+                    <App />
+                </Router>
+            </ThemeProvider>
         </LanguageProvider>
     </StrictMode>
 );
