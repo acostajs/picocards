@@ -54,3 +54,20 @@ class CardRead(CardBase):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class CollaboratorInvite(BaseModel):
+    email: str = Field(..., description="Email lookup of invited collaborator")
+    role: str = Field(
+        default="editor",
+        description="Collaborator role choice: 'editor' or 'visitor'",
+    )
+
+
+class CollaboratorRead(BaseModel):
+    project_id: str
+    user_id: str
+    role: str
+    joined_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
