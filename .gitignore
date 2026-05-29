@@ -1,0 +1,6 @@
+.docs/*.md
+.docs/
+.idea
+.venv
+node_modules
+.env    
