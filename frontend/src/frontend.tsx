@@ -8,6 +8,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
+import { LanguageProvider } from "./context/LanguageContext";
 
 const elem = document.getElementById("root");
 if (!elem) {
@@ -15,7 +16,9 @@ if (!elem) {
 }
 const app = (
     <StrictMode>
-        <App />
+        <LanguageProvider>
+            <App />
+        </LanguageProvider>
     </StrictMode>
 );
 
