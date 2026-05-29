@@ -37,10 +37,21 @@ function deleteCookie(name: string) {
     document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
 }
 
+const isDev =
+    (typeof process !== "undefined" &&
+        process.env?.NODE_ENV === "development") ||
+    (typeof window !== "undefined" &&
+        (window.location.hostname === "localhost" ||
+            window.location.hostname === "127.0.0.1"));
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [token, setToken] = useState<string | null>(() =>
-        getCookie("hub_session"),
-    );
+    const [token, setToken] = useState<string | null>(() => {
+        const existing = getCookie("hub_session");
+        if (!existing && isDev) {
+            return "dev-mock-session";
+        }
+        return existing;
+    });
 
     const isAuthenticated = token !== null;
 

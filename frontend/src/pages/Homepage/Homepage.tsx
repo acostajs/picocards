@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { type Language, useLanguage } from "../../context/LanguageContext";
-import { useTheme } from "../../context/ThemeContext";
+import { NavigationHeader } from "../../components/NavigationHeader";
+import { useTranslation } from "../../hooks/useTranslation";
 import { locales } from "./Homepage.locales";
 
 function getCookie(name: string): string | null {
@@ -20,25 +20,7 @@ function getCookie(name: string): string | null {
 
 export function Homepage() {
     const navigate = useNavigate();
-    const { language, setLanguage } = useLanguage();
-    const { theme, toggleTheme } = useTheme();
-
-    let t = locales.en;
-    switch (language) {
-        case "en":
-            t = locales.en;
-            break;
-        case "fr":
-            t = locales.fr;
-            break;
-        case "es":
-            t = locales.es;
-            break;
-        default: {
-            const _exhaustiveCheck: never = language;
-            t = locales.en;
-        }
-    }
+    const t = useTranslation(locales);
 
     useEffect(() => {
         const session = getCookie("hub_session");
@@ -50,47 +32,7 @@ export function Homepage() {
     return (
         <div className="layout-shell">
             {/* Header */}
-            <header className="card-surface flex flex-col lg:flex-row justify-between items-center gap-space-sm">
-                <span className="text-heading-lg">{t.title}</span>
-                <div className="flex flex-col sm:flex-row items-center gap-space-md">
-                    {/* Language Switcher */}
-                    <div className="flex items-center gap-space-sm">
-                        <span className="text-body font-bold">
-                            {t.langSelect}
-                        </span>
-                        <div className="flex gap-space-sm">
-                            {(["en", "fr", "es"] as Language[]).map((lang) => (
-                                <button
-                                    key={lang}
-                                    type="button"
-                                    onClick={() => setLanguage(lang)}
-                                    className={`btn-primary ${
-                                        language === lang
-                                            ? "ring-2 ring-offset-2 ring-[var(--text-primary)]"
-                                            : "opacity-60"
-                                    }`}
-                                >
-                                    {lang.toUpperCase()}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Theme Toggle Button */}
-                    <div className="flex items-center gap-space-sm">
-                        <span className="text-body font-bold">
-                            {t.themeToggle}:
-                        </span>
-                        <button
-                            type="button"
-                            onClick={toggleTheme}
-                            className="btn-primary"
-                        >
-                            {theme === "dark" ? t.themeLight : t.themeDark}
-                        </button>
-                    </div>
-                </div>
-            </header>
+            <NavigationHeader />
 
             {/* Hero Section */}
             <main className="flex-1 flex flex-col items-center justify-center p-space-lg text-center gap-space-md">
