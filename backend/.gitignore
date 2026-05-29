@@ -49,3 +49,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+# Databases
+*.db
+*.sqlite3
