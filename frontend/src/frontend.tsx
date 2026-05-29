@@ -9,6 +9,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { Router } from "./components/Router";
+import { AuthProvider } from "./context/AuthContext";
 import { LanguageProvider } from "./context/LanguageContext";
 import { ThemeProvider } from "./context/ThemeContext";
 
@@ -20,9 +21,11 @@ const app = (
     <StrictMode>
         <LanguageProvider>
             <ThemeProvider>
-                <Router>
-                    <App />
-                </Router>
+                <AuthProvider>
+                    <Router>
+                        <App />
+                    </Router>
+                </AuthProvider>
             </ThemeProvider>
         </LanguageProvider>
     </StrictMode>
