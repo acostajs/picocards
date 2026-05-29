@@ -100,11 +100,11 @@ export function CreateCardModal({
                             }
                             placeholder={t.placeholderQuestion}
                             rows={3}
-                            className="card-surface p-2 w-full outline-hidden bg-[var(--bg-primary)] text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--text-primary)]"
+                            className="card-surface p-space-sm w-full outline-hidden bg-[var(--bg-primary)] text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--text-primary)]"
                             required
                         />
                         {errorQuestion && (
-                            <span className="text-sm font-bold uppercase tracking-wide text-red-600 dark:text-red-400">
+                            <span className="border-2 border-[var(--border-primary)] p-space-xs bg-[var(--bg-primary)] text-[var(--text-primary)] text-sm font-bold uppercase tracking-wide inline-block mt-space-xs max-w-max">
                                 {errorQuestion}
                             </span>
                         )}
@@ -123,11 +123,11 @@ export function CreateCardModal({
                             onChange={(e) => handleAnswerChange(e.target.value)}
                             placeholder={t.placeholderAnswer}
                             rows={3}
-                            className="card-surface p-2 w-full outline-hidden bg-[var(--bg-primary)] text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--text-primary)]"
+                            className="card-surface p-space-sm w-full outline-hidden bg-[var(--bg-primary)] text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--text-primary)]"
                             required
                         />
                         {errorAnswer && (
-                            <span className="text-sm font-bold uppercase tracking-wide text-red-600 dark:text-red-400">
+                            <span className="border-2 border-[var(--border-primary)] p-space-xs bg-[var(--bg-primary)] text-[var(--text-primary)] text-sm font-bold uppercase tracking-wide inline-block mt-space-xs max-w-max">
                                 {errorAnswer}
                             </span>
                         )}
@@ -150,5 +150,3 @@ export function CreateCardModal({
         </div>
     );
 }
-
-export default CreateCardModal;

@@ -32,5 +32,3 @@ export function useCollaborators(
         handleRemoveCollaborator,
     };
 }
-
-export default useCollaborators;

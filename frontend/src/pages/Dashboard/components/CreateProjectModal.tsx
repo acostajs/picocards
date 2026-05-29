@@ -82,11 +82,11 @@ export function CreateProjectModal({
                             value={formTitle}
                             onChange={(e) => handleTitleChange(e.target.value)}
                             placeholder={t.placeholderTitle}
-                            className="card-surface p-2 w-full outline-hidden bg-[var(--bg-primary)] text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--text-primary)]"
+                            className="card-surface p-space-sm w-full outline-hidden bg-[var(--bg-primary)] text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--text-primary)]"
                             required
                         />
                         {errorTitle && (
-                            <span className="text-sm font-bold uppercase tracking-wide text-red-600 dark:text-red-400">
+                            <span className="border-2 border-[var(--border-primary)] p-space-xs bg-[var(--bg-primary)] text-[var(--text-primary)] text-sm font-bold uppercase tracking-wide inline-block mt-space-xs max-w-max">
                                 {errorTitle}
                             </span>
                         )}
@@ -105,7 +105,7 @@ export function CreateProjectModal({
                             onChange={(e) => setFormDesc(e.target.value)}
                             placeholder={t.placeholderDesc}
                             rows={4}
-                            className="card-surface p-2 w-full outline-hidden bg-[var(--bg-primary)] text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--text-primary)]"
+                            className="card-surface p-space-sm w-full outline-hidden bg-[var(--bg-primary)] text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--text-primary)]"
                         />
                     </div>
 
@@ -126,5 +126,3 @@ export function CreateProjectModal({
         </div>
     );
 }
-
-export default CreateProjectModal;

@@ -1,12 +1,10 @@
 export type DashboardTranslations = {
-    title: string;
     navBack: string;
     logoutBtn: string;
     headline: string;
     createBtn: string;
     emptyTitle: string;
     emptyText: string;
-    skeletonLoading: string;
 
     // Modal
     modalTitle: string;
@@ -21,16 +19,14 @@ export type DashboardTranslations = {
     errTitleRequired: string;
     errTitleTooLong: string;
 
-    // Theme & Language
-    langSelect: string;
-    themeToggle: string;
-    themeLight: string;
-    themeDark: string;
+    // New additions for clean code refactor
+    deleteDeckTooltip: string;
+    projectIdLabel: string;
+    confirmDeleteProject: string;
 };
 
 export const locales: Record<"en" | "fr" | "es", DashboardTranslations> = {
     en: {
-        title: "PicoCards",
         navBack: "Back to Hub",
         logoutBtn: "Logout",
         headline: "Your Study Decks",
@@ -38,7 +34,6 @@ export const locales: Record<"en" | "fr" | "es", DashboardTranslations> = {
         emptyTitle: "No study decks yet",
         emptyText:
             "Create your first workspace deck to start organizing your materials and practicing!",
-        skeletonLoading: "Loading decks...",
         modalTitle: "Create New Deck",
         fieldTitle: "Title",
         fieldDesc: "Description",
@@ -48,13 +43,11 @@ export const locales: Record<"en" | "fr" | "es", DashboardTranslations> = {
         cancelBtn: "Cancel",
         errTitleRequired: "Title is required.",
         errTitleTooLong: "Title must be 100 characters or less.",
-        langSelect: "Select Language:",
-        themeToggle: "Theme:",
-        themeLight: "Light",
-        themeDark: "Dark",
+        deleteDeckTooltip: "Delete Deck",
+        projectIdLabel: "ID: {id}",
+        confirmDeleteProject: "Are you sure you want to delete this deck?",
     },
     fr: {
-        title: "PicoCards",
         navBack: "Retour à Hub",
         logoutBtn: "Se déconnecter",
         headline: "Vos Decks d'Étude",
@@ -62,7 +55,6 @@ export const locales: Record<"en" | "fr" | "es", DashboardTranslations> = {
         emptyTitle: "Aucun deck d'étude pour le moment",
         emptyText:
             "Créez votre premier deck d'étude pour commencer à organiser vos cours et réviser !",
-        skeletonLoading: "Chargement des decks...",
         modalTitle: "Créer un Nouveau Deck",
         fieldTitle: "Titre",
         fieldDesc: "Description",
@@ -72,13 +64,11 @@ export const locales: Record<"en" | "fr" | "es", DashboardTranslations> = {
         cancelBtn: "Annuler",
         errTitleRequired: "Le titre est requis.",
         errTitleTooLong: "Le titre doit faire 100 caractères ou moins.",
-        langSelect: "Choisir la langue:",
-        themeToggle: "Thème:",
-        themeLight: "Clair",
-        themeDark: "Sombre",
+        deleteDeckTooltip: "Supprimer le deck",
+        projectIdLabel: "ID: {id}",
+        confirmDeleteProject: "Êtes-vous sûr de vouloir supprimer ce deck ?",
     },
     es: {
-        title: "PicoCards",
         navBack: "Volver a Hub",
         logoutBtn: "Cerrar sesión",
         headline: "Tus Mazos de Estudio",
@@ -86,7 +76,6 @@ export const locales: Record<"en" | "fr" | "es", DashboardTranslations> = {
         emptyTitle: "Aún no hay mazos de estudio",
         emptyText:
             "¡Crea tu primer mazo de trabajo para empezar a organizar tus materias y practicar!",
-        skeletonLoading: "Cargando mazos...",
         modalTitle: "Crear Nuevo Mazo",
         fieldTitle: "Título",
         fieldDesc: "Descripción",
@@ -96,9 +85,8 @@ export const locales: Record<"en" | "fr" | "es", DashboardTranslations> = {
         cancelBtn: "Cancelar",
         errTitleRequired: "El título es requerido.",
         errTitleTooLong: "El título debe tener 100 caracteres o menos.",
-        langSelect: "Seleccionar idioma:",
-        themeToggle: "Tema:",
-        themeLight: "Claro",
-        themeDark: "Oscuro",
+        deleteDeckTooltip: "Eliminar mazo",
+        projectIdLabel: "ID: {id}",
+        confirmDeleteProject: "¿Está seguro de que desea eliminar este mazo?",
     },
 };

@@ -1,33 +1,20 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavigationHeader } from "../../components/NavigationHeader";
+import { useAuth } from "../../context/AuthContext";
 import { useTranslation } from "../../hooks/useTranslation";
 import { locales } from "./Homepage.locales";
-
-function getCookie(name: string): string | null {
-    const cookieString = document.cookie;
-    const cookies = cookieString.split("; ");
-    for (const cookie of cookies) {
-        const parts = cookie.split("=");
-        const key = parts[0];
-        const value = parts[1];
-        if (key === name && value !== undefined) {
-            return decodeURIComponent(value);
-        }
-    }
-    return null;
-}
 
 export function Homepage() {
     const navigate = useNavigate();
     const t = useTranslation(locales);
+    const { isAuthenticated } = useAuth();
 
     useEffect(() => {
-        const session = getCookie("hub_session");
-        if (session) {
+        if (isAuthenticated) {
             navigate("/dashboard");
         }
-    }, [navigate]);
+    }, [isAuthenticated, navigate]);
 
     return (
         <div className="layout-shell">
@@ -82,5 +69,3 @@ export function Homepage() {
         </div>
     );
 }
-
-export default Homepage;

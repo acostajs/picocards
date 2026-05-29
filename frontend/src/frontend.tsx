@@ -6,7 +6,7 @@
  */
 
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { createRoot, type Root } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import { AuthProvider } from "./context/AuthContext";
@@ -32,9 +32,22 @@ const app = (
 );
 
 // https://bun.com/docs/bundler/hot-reloading#import-meta-hot-data
-let root = import.meta.hot.data.root;
+const isHot = typeof import.meta.hot !== "undefined";
+let root: unknown = isHot
+    ? (
+          import.meta as unknown as {
+              hot: { data: { root: unknown } };
+          }
+      ).hot.data.root
+    : null;
 if (!root) {
     root = createRoot(elem);
-    import.meta.hot.data.root = root;
+    if (isHot) {
+        (
+            import.meta as unknown as {
+                hot: { data: { root: unknown } };
+            }
+        ).hot.data.root = root;
+    }
 }
-root.render(app);
+(root as Root).render(app);

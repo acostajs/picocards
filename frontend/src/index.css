@@ -5,6 +5,7 @@
     --color-text-primary: var(--text-primary);
     --color-border-primary: var(--border-primary);
 
+    --spacing-space-xs: 0.25rem;
     --spacing-space-sm: 0.5rem;
     --spacing-space-md: 1rem;
     --spacing-space-lg: 2rem;

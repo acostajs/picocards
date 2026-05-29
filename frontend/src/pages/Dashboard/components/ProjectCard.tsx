@@ -1,13 +1,15 @@
 import type { SyntheticEvent } from "react";
 import { Link } from "react-router-dom";
+import type { DashboardTranslations } from "../Dashboard.locales";
 import type { Project } from "../types";
 
 type ProjectCardProps = {
     project: Project;
     onDelete: (id: string) => void;
+    t: DashboardTranslations;
 };
 
-export function ProjectCard({ project, onDelete }: ProjectCardProps) {
+export function ProjectCard({ project, onDelete, t }: ProjectCardProps) {
     function handleDeleteClick(e: SyntheticEvent<HTMLButtonElement>) {
         e.preventDefault();
         e.stopPropagation();
@@ -28,8 +30,8 @@ export function ProjectCard({ project, onDelete }: ProjectCardProps) {
                         <button
                             type="button"
                             onClick={handleDeleteClick}
-                            className="text-sm font-black text-red-600 hover:text-red-500 hover:scale-110 active:scale-95 transition-all p-1"
-                            title="Delete Deck"
+                            className="text-sm font-black text-[var(--text-primary)] hover:opacity-70 hover:scale-110 active:scale-95 transition-all p-space-xs cursor-pointer"
+                            title={t.deleteDeckTooltip}
                         >
                             ✕
                         </button>
@@ -39,12 +41,10 @@ export function ProjectCard({ project, onDelete }: ProjectCardProps) {
                     </p>
                 </div>
                 <div className="text-xs opacity-60 font-mono mt-auto flex justify-between">
-                    <span>ID: {project.id}</span>
+                    <span>{t.projectIdLabel.replace("{id}", project.id)}</span>
                     <span>{project.created_at}</span>
                 </div>
             </section>
         </Link>
     );
 }
-
-export default ProjectCard;

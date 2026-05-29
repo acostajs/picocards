@@ -18,5 +18,3 @@ export function useTranslation<T>(
         }
     }
 }
-
-export default useTranslation;
