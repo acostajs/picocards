@@ -1,32 +1,14 @@
 import { Link, Route, Routes } from "react-router-dom";
 import { locales } from "./App.locales";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import { useLanguage } from "./context/LanguageContext";
+import { useTranslation } from "./hooks/useTranslation";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Homepage } from "./pages/Homepage/Homepage";
 import { ProjectWorkspace } from "./pages/ProjectWorkspace/ProjectWorkspace";
 import "./index.css";
 
 export function App() {
-    const { language } = useLanguage();
-
-    // Exhaustive localization lookup
-    let t = locales.en;
-    switch (language) {
-        case "en":
-            t = locales.en;
-            break;
-        case "fr":
-            t = locales.fr;
-            break;
-        case "es":
-            t = locales.es;
-            break;
-        default: {
-            const _exhaustiveCheck: never = language;
-            t = locales.en;
-        }
-    }
+    const t = useTranslation(locales);
 
     return (
         <Routes>

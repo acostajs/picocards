@@ -33,6 +33,20 @@ export type WorkspaceTranslations = {
     themeToggle: string;
     themeLight: string;
     themeDark: string;
+
+    // Collaborators Mode
+    collaboratorsMode: string;
+    collabHeadline: string;
+    inviteLabel: string;
+    invitePlaceholder: string;
+    inviteBtn: string;
+    collabHeaderEmail: string;
+    collabHeaderRole: string;
+    collabHeaderAction: string;
+    noCollaborators: string;
+    errEmailRequired: string;
+    errEmailInvalid: string;
+    errEmailAlreadyExists: string;
 };
 
 export const locales: Record<"en" | "fr" | "es", WorkspaceTranslations> = {
@@ -64,6 +78,19 @@ export const locales: Record<"en" | "fr" | "es", WorkspaceTranslations> = {
         themeToggle: "Theme:",
         themeLight: "Light",
         themeDark: "Dark",
+        collaboratorsMode: "Collaborators",
+        collabHeadline: "Manage Collaboration Settings",
+        inviteLabel: "Invite Classmate (Email) *",
+        invitePlaceholder: "classmate@hub.ca",
+        inviteBtn: "Invite",
+        collabHeaderEmail: "Email",
+        collabHeaderRole: "Role",
+        collabHeaderAction: "Action",
+        noCollaborators: "No active collaborators in this workspace.",
+        errEmailRequired: "Email address is required.",
+        errEmailInvalid: "Please enter a valid email address.",
+        errEmailAlreadyExists:
+            "This collaborator has already been invited or added.",
     },
     fr: {
         title: "PicoCards",
@@ -93,6 +120,18 @@ export const locales: Record<"en" | "fr" | "es", WorkspaceTranslations> = {
         themeToggle: "Thème:",
         themeLight: "Clair",
         themeDark: "Sombre",
+        collaboratorsMode: "Collaborateurs",
+        collabHeadline: "Gérer les paramètres de collaboration",
+        inviteLabel: "Inviter un camarade (E-mail) *",
+        invitePlaceholder: "camarade@hub.ca",
+        inviteBtn: "Inviter",
+        collabHeaderEmail: "E-mail",
+        collabHeaderRole: "Rôle",
+        collabHeaderAction: "Action",
+        noCollaborators: "Aucun collaborateur actif dans cet espace.",
+        errEmailRequired: "L'e-mail est requis.",
+        errEmailInvalid: "Veuillez saisir une adresse e-mail valide.",
+        errEmailAlreadyExists: "Ce collaborateur a déjà été invité ou ajouté.",
     },
     es: {
         title: "PicoCards",
@@ -122,5 +161,18 @@ export const locales: Record<"en" | "fr" | "es", WorkspaceTranslations> = {
         themeToggle: "Tema:",
         themeLight: "Claro",
         themeDark: "Oscuro",
+        collaboratorsMode: "Colaboradores",
+        collabHeadline: "Gestionar configuración de colaboración",
+        inviteLabel: "Invitar compañero (Correo) *",
+        invitePlaceholder: "companero@hub.ca",
+        inviteBtn: "Invitar",
+        collabHeaderEmail: "Correo",
+        collabHeaderRole: "Rol",
+        collabHeaderAction: "Acción",
+        noCollaborators: "No hay colaboradores activos en este espacio.",
+        errEmailRequired: "El correo es requerido.",
+        errEmailInvalid: "Por favor, ingrese un correo válido.",
+        errEmailAlreadyExists:
+            "Este colaborador ya ha sido invitado o agregado.",
     },
 };
