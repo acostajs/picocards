@@ -18,7 +18,10 @@ export function EditModeView({
         <div className="flex flex-col gap-space-md">
             <div className="flex justify-between items-center">
                 <span className="text-body font-bold opacity-80">
-                    {projectCards.length} Flashcards
+                    {t.cardCount.replace(
+                        "{count}",
+                        projectCards.length.toString(),
+                    )}
                 </span>
                 <button
                     type="button"
@@ -55,22 +58,26 @@ export function EditModeView({
                             {/* Card Deletion Trigger */}
                             <button
                                 type="button"
-                                onClick={() => onDeleteCard(card.id)}
-                                className="absolute top-2 right-2 text-sm font-black text-red-600 hover:text-red-500 hover:scale-110 transition-all p-1"
-                                title="Delete Card"
+                                onClick={() => {
+                                    if (window.confirm(t.confirmDeleteCard)) {
+                                        onDeleteCard(card.id);
+                                    }
+                                }}
+                                className="absolute top-space-sm right-space-sm text-sm font-black text-[var(--text-primary)] hover:opacity-70 hover:scale-110 active:scale-95 transition-all p-space-xs cursor-pointer"
+                                title={t.deleteCardTooltip}
                             >
                                 ✕
                             </button>
                             <div className="flex flex-col gap-space-sm">
                                 <span className="text-xs uppercase tracking-wider opacity-60 font-black">
-                                    {t.fieldQuestion.replace(" *", "")}
+                                    {t.questionLabel}
                                 </span>
                                 <p className="text-body font-bold pr-6">
                                     {card.question}
                                 </p>
                                 <hr className="border-[var(--border-primary)]" />
                                 <span className="text-xs uppercase tracking-wider opacity-60 font-black">
-                                    {t.fieldAnswer.replace(" *", "")}
+                                    {t.answerLabel}
                                 </span>
                                 <p className="text-body">{card.answer}</p>
                             </div>
@@ -81,5 +88,3 @@ export function EditModeView({
         </div>
     );
 }
-
-export default EditModeView;

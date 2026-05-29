@@ -7,6 +7,7 @@ import { ProjectCard } from "./components/ProjectCard";
 import { locales } from "./Dashboard.locales";
 import type { Project } from "./types";
 
+// STUB: Replace with API fetch in Phase 2
 const initialProjects: Project[] = [
     {
         id: "proj-1",
@@ -31,9 +32,22 @@ export function Dashboard() {
     const t = useTranslation(locales);
 
     // States
-    const [projects, setProjects] = useState<Project[]>(initialProjects);
+    const [projects, setProjects] = useState<Project[]>(() => {
+        const stored = localStorage.getItem("picocards_projects");
+        if (stored) {
+            try {
+                return JSON.parse(stored);
+            } catch {}
+        }
+        return initialProjects;
+    });
     const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Persist projects locally for dynamic workspace lookup
+    useEffect(() => {
+        localStorage.setItem("picocards_projects", JSON.stringify(projects));
+    }, [projects]);
 
     // Simulate loading on mount
     useEffect(() => {
@@ -55,7 +69,9 @@ export function Dashboard() {
     }
 
     function handleDeleteProject(id: string) {
-        setProjects((prev) => prev.filter((p) => p.id !== id));
+        if (window.confirm(t.confirmDeleteProject)) {
+            setProjects((prev) => prev.filter((p) => p.id !== id));
+        }
     }
 
     return (
@@ -135,6 +151,7 @@ export function Dashboard() {
                                 key={proj.id}
                                 project={proj}
                                 onDelete={handleDeleteProject}
+                                t={t}
                             />
                         ))}
                     </div>
@@ -151,5 +168,3 @@ export function Dashboard() {
         </div>
     );
 }
-
-export default Dashboard;

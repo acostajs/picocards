@@ -11,6 +11,7 @@ import { useCollaborators } from "./hooks/useCollaborators";
 import { locales } from "./ProjectWorkspace.locales";
 import type { Card, Collaborator } from "./types";
 
+// STUB: Replace with API fetch in Phase 2
 const initialCards: Card[] = [
     {
         id: "card-1",
@@ -38,6 +39,7 @@ const initialCards: Card[] = [
     },
 ];
 
+// STUB: Replace with API fetch in Phase 2
 const initialCollaborators: Collaborator[] = [
     {
         id: "collab-1",
@@ -82,13 +84,22 @@ export function ProjectWorkspace() {
     >("study");
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Dynamic Project Name parsing for header based on dynamic ID
-    let projectTitle = t.headline;
-    if (projectId === "proj-1") {
-        projectTitle = "Chemistry 101";
-    } else if (projectId === "proj-2") {
-        projectTitle = "Calculus II";
-    }
+    // Dynamic Project Name parsing based on dynamic ID from localStorage projects cache
+    const storedProjects = (() => {
+        const stored = localStorage.getItem("picocards_projects");
+        if (stored) {
+            try {
+                return JSON.parse(stored) as { id: string; title: string }[];
+            } catch {}
+        }
+        return [
+            { id: "proj-1", title: "Chemistry 101" },
+            { id: "proj-2", title: "Calculus II" },
+        ];
+    })();
+
+    const currentProject = storedProjects.find((p) => p.id === projectId);
+    const projectTitle = currentProject ? currentProject.title : t.headline;
 
     return (
         <div className="layout-shell">
@@ -111,7 +122,7 @@ export function ProjectWorkspace() {
                     </h1>
 
                     {/* Mode Segmented Controller Toggle */}
-                    <div className="flex border-2 border-[var(--border-primary)] bg-[var(--bg-primary)] p-1">
+                    <div className="flex border-2 border-[var(--border-primary)] bg-[var(--bg-primary)] p-space-xs">
                         {(["study", "edit", "collaborators"] as const).map(
                             (mode) => (
                                 <button
@@ -156,7 +167,11 @@ export function ProjectWorkspace() {
                 {viewMode === "edit" && (
                     <EditModeView
                         projectCards={projectCards}
-                        onDeleteCard={handleDeleteCard}
+                        onDeleteCard={(id) => {
+                            if (window.confirm(t.confirmDeleteCard)) {
+                                handleDeleteCard(id);
+                            }
+                        }}
                         onCreateCardClick={() => setIsModalOpen(true)}
                         t={t}
                     />
@@ -182,5 +197,3 @@ export function ProjectWorkspace() {
         </div>
     );
 }
-
-export default ProjectWorkspace;

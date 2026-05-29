@@ -70,8 +70,5 @@ export function useCardDeck(
         handlePrev,
         handleNext,
         handleShuffle,
-        setStudyIndex,
     };
 }
-
-export default useCardDeck;

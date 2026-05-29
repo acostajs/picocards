@@ -64,7 +64,7 @@ export function CollaboratorsPanel({
                 </h3>
                 <form
                     onSubmit={handleInviteSubmit}
-                    className="flex flex-col sm:flex-row gap-space-md items-start sm:items-end"
+                    className="flex flex-col sm:flex-row gap-space-md items-stretch sm:items-end"
                 >
                     <div className="flex flex-col gap-space-sm w-full sm:flex-1">
                         <label
@@ -84,18 +84,18 @@ export function CollaboratorsPanel({
                                 }
                             }}
                             placeholder={t.invitePlaceholder}
-                            className="card-surface p-2 w-full outline-hidden bg-[var(--bg-primary)] text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--text-primary)]"
+                            className="card-surface p-space-sm w-full outline-hidden bg-[var(--bg-primary)] text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--text-primary)]"
                         />
                     </div>
                     <button
                         type="submit"
-                        className="btn-primary w-full sm:w-auto h-[44px] flex items-center justify-center"
+                        className="btn-primary w-full sm:w-auto flex items-center justify-center cursor-pointer"
                     >
                         {t.inviteBtn}
                     </button>
                 </form>
                 {emailError && (
-                    <span className="text-sm font-bold uppercase tracking-wide text-red-600 dark:text-red-400">
+                    <span className="border-2 border-[var(--border-primary)] p-space-xs bg-[var(--bg-primary)] text-[var(--text-primary)] text-sm font-bold uppercase tracking-wide inline-block mt-space-xs max-w-max">
                         {emailError}
                     </span>
                 )}
@@ -137,18 +137,24 @@ export function CollaboratorsPanel({
                                             {collab.email}
                                         </td>
                                         <td className="p-space-sm">
-                                            <span className="text-xs uppercase tracking-wider font-bold border-[var(--border-primary)] border px-2 py-0.5 opacity-80">
+                                            <span className="text-xs uppercase tracking-wider font-bold border-[var(--border-primary)] border px-space-sm py-space-xs opacity-80">
                                                 {collab.role}
                                             </span>
                                         </td>
                                         <td className="p-space-sm text-right">
                                             <button
                                                 type="button"
-                                                onClick={() =>
-                                                    onRemove(collab.id)
-                                                }
-                                                className="text-sm font-black text-red-600 hover:text-red-500 hover:scale-110 active:scale-95 transition-all p-1"
-                                                title="Remove Collaborator"
+                                                onClick={() => {
+                                                    if (
+                                                        window.confirm(
+                                                            t.confirmRemoveCollaborator,
+                                                        )
+                                                    ) {
+                                                        onRemove(collab.id);
+                                                    }
+                                                }}
+                                                className="text-sm font-black text-[var(--text-primary)] hover:opacity-70 hover:scale-110 active:scale-95 transition-all p-space-xs cursor-pointer"
+                                                title={t.removeCollabTooltip}
                                             >
                                                 ✕
                                             </button>
@@ -163,5 +169,3 @@ export function CollaboratorsPanel({
         </div>
     );
 }
-
-export default CollaboratorsPanel;

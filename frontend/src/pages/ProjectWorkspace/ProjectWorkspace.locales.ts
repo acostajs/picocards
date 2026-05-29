@@ -1,5 +1,4 @@
 export type WorkspaceTranslations = {
-    title: string;
     navBack: string;
     headline: string;
     studyMode: string;
@@ -28,12 +27,6 @@ export type WorkspaceTranslations = {
     shuffleBtn: string;
     cardCounter: string;
 
-    // Language & Theme
-    langSelect: string;
-    themeToggle: string;
-    themeLight: string;
-    themeDark: string;
-
     // Collaborators Mode
     collaboratorsMode: string;
     collabHeadline: string;
@@ -47,11 +40,19 @@ export type WorkspaceTranslations = {
     errEmailRequired: string;
     errEmailInvalid: string;
     errEmailAlreadyExists: string;
+
+    // New additions for clean code refactor
+    cardCount: string;
+    deleteCardTooltip: string;
+    removeCollabTooltip: string;
+    confirmDeleteCard: string;
+    confirmRemoveCollaborator: string;
+    questionLabel: string;
+    answerLabel: string;
 };
 
 export const locales: Record<"en" | "fr" | "es", WorkspaceTranslations> = {
     en: {
-        title: "PicoCards",
         navBack: "Back to Dashboard",
         headline: "Study Workspace",
         studyMode: "Study Mode",
@@ -74,10 +75,6 @@ export const locales: Record<"en" | "fr" | "es", WorkspaceTranslations> = {
         nextCard: "Next",
         shuffleBtn: "Shuffle Deck",
         cardCounter: "Card {current} of {total}",
-        langSelect: "Select Language:",
-        themeToggle: "Theme:",
-        themeLight: "Light",
-        themeDark: "Dark",
         collaboratorsMode: "Collaborators",
         collabHeadline: "Manage Collaboration Settings",
         inviteLabel: "Invite Classmate (Email) *",
@@ -91,9 +88,16 @@ export const locales: Record<"en" | "fr" | "es", WorkspaceTranslations> = {
         errEmailInvalid: "Please enter a valid email address.",
         errEmailAlreadyExists:
             "This collaborator has already been invited or added.",
+        cardCount: "{count} Flashcards",
+        deleteCardTooltip: "Delete Card",
+        removeCollabTooltip: "Remove Collaborator",
+        confirmDeleteCard: "Are you sure you want to delete this card?",
+        confirmRemoveCollaborator:
+            "Are you sure you want to remove this collaborator?",
+        questionLabel: "Front Canvas (Question)",
+        answerLabel: "Back Canvas (Answer)",
     },
     fr: {
-        title: "PicoCards",
         navBack: "Retour au Tableau de Bord",
         headline: "Espace de Travail",
         studyMode: "Mode d'Étude",
@@ -116,10 +120,6 @@ export const locales: Record<"en" | "fr" | "es", WorkspaceTranslations> = {
         nextCard: "Suivant",
         shuffleBtn: "Mélanger le Deck",
         cardCounter: "Carte {current} sur {total}",
-        langSelect: "Choisir la langue:",
-        themeToggle: "Thème:",
-        themeLight: "Clair",
-        themeDark: "Sombre",
         collaboratorsMode: "Collaborateurs",
         collabHeadline: "Gérer les paramètres de collaboration",
         inviteLabel: "Inviter un camarade (E-mail) *",
@@ -132,9 +132,16 @@ export const locales: Record<"en" | "fr" | "es", WorkspaceTranslations> = {
         errEmailRequired: "L'e-mail est requis.",
         errEmailInvalid: "Veuillez saisir une adresse e-mail valide.",
         errEmailAlreadyExists: "Ce collaborateur a déjà été invité ou ajouté.",
+        cardCount: "{count} fiches",
+        deleteCardTooltip: "Supprimer la carte",
+        removeCollabTooltip: "Retirer le collaborateur",
+        confirmDeleteCard: "Êtes-vous sûr de vouloir supprimer cette carte ?",
+        confirmRemoveCollaborator:
+            "Êtes-vous sûr de vouloir retirer ce collaborateur ?",
+        questionLabel: "Recto (Question)",
+        answerLabel: "Verso (Réponse)",
     },
     es: {
-        title: "PicoCards",
         navBack: "Volver al Tablero",
         headline: "Espacio de Estudio",
         studyMode: "Modo de Estudio",
@@ -157,10 +164,6 @@ export const locales: Record<"en" | "fr" | "es", WorkspaceTranslations> = {
         nextCard: "Siguiente",
         shuffleBtn: "Mezclar Mazo",
         cardCounter: "Tarjeta {current} de {total}",
-        langSelect: "Seleccionar idioma:",
-        themeToggle: "Tema:",
-        themeLight: "Claro",
-        themeDark: "Oscuro",
         collaboratorsMode: "Colaboradores",
         collabHeadline: "Gestionar configuración de colaboración",
         inviteLabel: "Invitar compañero (Correo) *",
@@ -174,5 +177,13 @@ export const locales: Record<"en" | "fr" | "es", WorkspaceTranslations> = {
         errEmailInvalid: "Por favor, ingrese un correo válido.",
         errEmailAlreadyExists:
             "Este colaborador ya ha sido invitado o agregado.",
+        cardCount: "{count} tarjetas",
+        deleteCardTooltip: "Eliminar tarjeta",
+        removeCollabTooltip: "Eliminar colaborador",
+        confirmDeleteCard: "¿Está seguro de que desea eliminar esta tarjeta?",
+        confirmRemoveCollaborator:
+            "¿Está seguro de que desea retirar a este colaborador?",
+        questionLabel: "Frente (Pregunta)",
+        answerLabel: "Reverso (Respuesta)",
     },
 };

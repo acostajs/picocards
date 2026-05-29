@@ -62,9 +62,7 @@ export function StudyModeView({
                     className="card-surface w-full cursor-pointer min-h-64 flex flex-col items-center justify-center text-center p-space-lg gap-space-md transition-all select-none hover:scale-[1.01] active:scale-99"
                 >
                     <span className="text-xs uppercase tracking-widest opacity-60 font-black">
-                        {isFlipped
-                            ? t.fieldAnswer.replace(" *", "")
-                            : t.fieldQuestion.replace(" *", "")}
+                        {isFlipped ? t.answerLabel : t.questionLabel}
                     </span>
                     <p className="text-heading-md text-2xl md:text-3xl max-w-xl break-words leading-relaxed font-black">
                         {activeCard &&
@@ -72,7 +70,7 @@ export function StudyModeView({
                                 ? activeCard.answer
                                 : activeCard.question)}
                     </p>
-                    <span className="text-xs uppercase tracking-wider font-bold border-[var(--border-primary)] border px-2 py-0.5 mt-space-md opacity-60">
+                    <span className="text-xs uppercase tracking-wider font-bold border-[var(--border-primary)] border px-space-sm py-space-xs mt-space-md opacity-60">
                         {t.flipPrompt}
                     </span>
                 </button>
@@ -105,5 +103,3 @@ export function StudyModeView({
         </div>
     );
 }
-
-export default StudyModeView;
