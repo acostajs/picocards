@@ -12,6 +12,9 @@ export type HomepageTranslations = {
     feat2Text: string;
     feat3Title: string;
     feat3Text: string;
+    themeLight: string;
+    themeDark: string;
+    themeToggle: string;
 };
 
 export const locales: Record<"en" | "fr" | "es", HomepageTranslations> = {
@@ -33,6 +36,9 @@ export const locales: Record<"en" | "fr" | "es", HomepageTranslations> = {
         feat3Title: "Real-time Collaboration",
         feat3Text:
             "Invite classmates instantly via email to co-edit and master course decks together.",
+        themeLight: "Light",
+        themeDark: "Dark",
+        themeToggle: "Toggle Theme",
     },
     fr: {
         title: "PicoCards",
@@ -52,6 +58,9 @@ export const locales: Record<"en" | "fr" | "es", HomepageTranslations> = {
         feat3Title: "Collaboration en Temps Réel",
         feat3Text:
             "Invitez instantanément vos camarades par e-mail pour éditer et maîtriser les cours ensemble.",
+        themeLight: "Clair",
+        themeDark: "Sombre",
+        themeToggle: "Basculer le thème",
     },
     es: {
         title: "PicoCards",
@@ -71,5 +80,8 @@ export const locales: Record<"en" | "fr" | "es", HomepageTranslations> = {
         feat3Title: "Colaboración en Tiempo Real",
         feat3Text:
             "Invita a tus compañeros por correo para coeditar y dominar juntos las materias del curso.",
+        themeLight: "Claro",
+        themeDark: "Oscuro",
+        themeToggle: "Cambiar tema",
     },
 };

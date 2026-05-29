@@ -20,11 +20,23 @@
     }
 
     @media (prefers-color-scheme: dark) {
-        :root {
+        :root:not(.light) {
             --bg-primary: #000000;
             --text-primary: #ffffff;
             --border-primary: #ffffff;
         }
+    }
+
+    :root.dark {
+        --bg-primary: #000000;
+        --text-primary: #ffffff;
+        --border-primary: #ffffff;
+    }
+
+    :root.light {
+        --bg-primary: #ffffff;
+        --text-primary: #000000;
+        --border-primary: #000000;
     }
 
     html,
