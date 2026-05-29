@@ -14,6 +14,52 @@ from app.schemas import CollaboratorInvite, CollaboratorRead
 router = APIRouter(tags=["collaborators"])
 
 
+@router.get(
+    "/api/projects/{project_id}/collaborators",
+    response_model=list[CollaboratorRead],
+)
+async def get_project_collaborators(
+    project_id: str,
+    user_id: str = Depends(get_current_user),
+    session: AsyncSession = Depends(get_session),
+) -> list[ProjectCollaborator]:
+    """Retrieve all collaborators in a project workspace (Owner / Editor / Visitor)."""
+    # 1. Fetch project and verify existence
+    project = await session.get(Project, project_id)
+    if not project:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Project not found",
+        )
+
+    # 2. Access Check: Owner
+    authorized = False
+    if project.owner_id == user_id:
+        authorized = True
+    else:
+        # 3. Access Check: Collaborator
+        collab_stmt = select(ProjectCollaborator).where(
+            ProjectCollaborator.project_id == project_id,
+            ProjectCollaborator.user_id == user_id,
+        )
+        collab_res = await session.execute(collab_stmt)
+        if collab_res.scalars().first():
+            authorized = True
+
+    if not authorized:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Forbidden: You do not have access to this project",
+        )
+
+    # 4. Fetch all collaborators
+    stmt = select(ProjectCollaborator).where(
+        ProjectCollaborator.project_id == project_id
+    )
+    res = await session.execute(stmt)
+    return list(res.scalars().all())
+
+
 @router.post(
     "/api/projects/{project_id}/collaborators",
     response_model=CollaboratorRead,
@@ -98,6 +144,7 @@ async def invite_collaborator(
     collab = ProjectCollaborator(
         project_id=project_id,
         user_id=retrieved_user_id,
+        email=invite.email,
         role=invite.role,
     )
     session.add(collab)

@@ -2,75 +2,69 @@ import { useEffect, useState } from "react";
 import { NavigationHeader } from "../../components/NavigationHeader";
 import { useAuth } from "../../context/AuthContext";
 import { useTranslation } from "../../hooks/useTranslation";
+import { api } from "../../utils/api";
 import { CreateProjectModal } from "./components/CreateProjectModal";
 import { ProjectCard } from "./components/ProjectCard";
 import { locales } from "./Dashboard.locales";
 import type { Project } from "./types";
-
-// STUB: Replace with API fetch in Phase 2
-const initialProjects: Project[] = [
-    {
-        id: "proj-1",
-        title: "Chemistry 101",
-        description:
-            "Inorganic Chemistry study deck covering atomic orbitals, bonding, and kinetics for upcoming midterms.",
-        owner_id: "student-1",
-        created_at: new Date().toLocaleDateString(),
-    },
-    {
-        id: "proj-2",
-        title: "Calculus II",
-        description:
-            "Comprehensive review of integration techniques, series expansion, and differential equations.",
-        owner_id: "student-1",
-        created_at: new Date().toLocaleDateString(),
-    },
-];
 
 export function Dashboard() {
     const { logout } = useAuth();
     const t = useTranslation(locales);
 
     // States
-    const [projects, setProjects] = useState<Project[]>(() => {
-        const stored = localStorage.getItem("picocards_projects");
-        if (stored) {
-            try {
-                return JSON.parse(stored);
-            } catch {}
-        }
-        return initialProjects;
-    });
+    const [projects, setProjects] = useState<Project[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Persist projects locally for dynamic workspace lookup
     useEffect(() => {
-        localStorage.setItem("picocards_projects", JSON.stringify(projects));
+        if (projects.length > 0) {
+            localStorage.setItem(
+                "picocards_projects",
+                JSON.stringify(projects),
+            );
+        }
     }, [projects]);
 
-    // Simulate loading on mount
+    // Fetch projects on mount
     useEffect(() => {
-        const timer = setTimeout(() => setIsLoading(false), 1000);
-        return () => clearTimeout(timer);
+        api.get<Project[]>("/api/projects")
+            .then((data) => {
+                setProjects(data);
+                localStorage.setItem(
+                    "picocards_projects",
+                    JSON.stringify(data),
+                );
+            })
+            .catch((err) => {
+                console.error("Failed to fetch projects:", err);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }, []);
 
     function handleCreateProject(title: string, description: string) {
-        const newProject: Project = {
-            id: `proj-${Date.now()}`,
-            title,
-            description,
-            owner_id: "student-1",
-            created_at: new Date().toLocaleDateString(),
-        };
-
-        setProjects((prev) => [newProject, ...prev]);
-        setIsModalOpen(false);
+        api.post<Project>("/api/projects", { title, description })
+            .then((newProject) => {
+                setProjects((prev) => [newProject, ...prev]);
+                setIsModalOpen(false);
+            })
+            .catch((err) => {
+                alert(err.message || "Failed to create project");
+            });
     }
 
     function handleDeleteProject(id: string) {
         if (window.confirm(t.confirmDeleteProject)) {
-            setProjects((prev) => prev.filter((p) => p.id !== id));
+            api.delete(`/api/projects/${id}`)
+                .then(() => {
+                    setProjects((prev) => prev.filter((p) => p.id !== id));
+                })
+                .catch((err) => {
+                    alert(err.message || "Failed to delete project");
+                });
         }
     }
 

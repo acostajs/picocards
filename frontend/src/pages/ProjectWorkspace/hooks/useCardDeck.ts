@@ -1,39 +1,55 @@
 import { useEffect, useState } from "react";
+import { api } from "../../../utils/api";
 import type { Card } from "../types";
 
-export function useCardDeck(
-    projectId: string | undefined,
-    initialCards: Card[],
-) {
-    const [cards, setCards] = useState<Card[]>(initialCards);
+export function useCardDeck(projectId: string | undefined) {
+    const [cards, setCards] = useState<Card[]>([]);
     const [studyIndex, setStudyIndex] = useState(0);
     const [isFlipped, setIsFlipped] = useState(false);
 
-    const projectCards = cards.filter((c) => c.project_id === projectId);
+    const projectCards = cards;
 
-    // Reset index if deck changes
-    // biome-ignore lint/correctness/useExhaustiveDependencies: Reset active indices whenever the projectId routes change.
+    // Fetch cards and reset index if deck changes
     useEffect(() => {
         setStudyIndex(0);
         setIsFlipped(false);
+
+        if (projectId) {
+            api.get<Card[]>(`/api/projects/${projectId}/cards`)
+                .then((data) => {
+                    setCards(data);
+                })
+                .catch((err) => {
+                    console.error("Failed to fetch cards:", err);
+                });
+        } else {
+            setCards([]);
+        }
     }, [projectId]);
 
     function handleCreateCard(question: string, answer: string) {
-        const newCard: Card = {
-            id: `card-${Date.now()}`,
-            project_id: projectId || "proj-1",
-            question,
-            answer,
-        };
-        setCards((prev) => [...prev, newCard]);
+        if (!projectId) return;
+        api.post<Card>(`/api/projects/${projectId}/cards`, { question, answer })
+            .then((newCard) => {
+                setCards((prev) => [...prev, newCard]);
+            })
+            .catch((err) => {
+                alert(err.message || "Failed to create card");
+            });
     }
 
     function handleDeleteCard(id: string) {
-        setCards((prev) => prev.filter((c) => c.id !== id));
-        if (studyIndex >= projectCards.length - 1 && studyIndex > 0) {
-            setStudyIndex((prev) => prev - 1);
-        }
-        setIsFlipped(false);
+        api.delete(`/api/cards/${id}`)
+            .then(() => {
+                setCards((prev) => prev.filter((c) => c.id !== id));
+                if (studyIndex >= projectCards.length - 1 && studyIndex > 0) {
+                    setStudyIndex((prev) => prev - 1);
+                }
+                setIsFlipped(false);
+            })
+            .catch((err) => {
+                alert(err.message || "Failed to delete card");
+            });
     }
 
     function handlePrev() {

@@ -16,6 +16,14 @@ class Settings(BaseSettings):
     DEV_BYPASS_ENABLED: bool = True
     DEV_MOCK_USER_ID: str = "dev-student-1"
 
+    # CORS parameters
+    CORS_ALLOWED_ORIGINS: list[str] = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ]
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

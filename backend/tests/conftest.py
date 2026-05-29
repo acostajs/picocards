@@ -1,10 +1,5 @@
-# backend/tests/conftest.py
-import pytest
-
+# Force database to test.db and disable bypass globally during tests
 from app.core.config import settings
 
-
-@pytest.fixture(scope="session", autouse=True)
-def disable_dev_bypass_during_tests() -> None:
-    """Disable local dev bypass globally during tests."""
-    settings.DEV_BYPASS_ENABLED = False
+settings.DATABASE_URL = "sqlite:///./test.db"
+settings.DEV_BYPASS_ENABLED = False

@@ -1,5 +1,6 @@
 # backend/app/main.py
 from fastapi import Depends, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
 from app.core.security import get_current_user
@@ -9,6 +10,15 @@ from app.routes.dev_bypass import router as dev_bypass_router
 from app.routes.projects import router as projects_router
 
 app = FastAPI(title="PicoCards API Layer")
+
+# Enable CORS for cross-origin frontend communication
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.CORS_ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/api/health")
