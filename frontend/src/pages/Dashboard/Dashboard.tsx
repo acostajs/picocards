@@ -1,4 +1,4 @@
-import { type FormEvent, useEffect, useState } from "react";
+import { type SyntheticEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { type Language, useLanguage } from "../../context/LanguageContext";
@@ -82,7 +82,7 @@ export function Dashboard() {
     }
 
     // Form Submit
-    function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+    function handleFormSubmit(e: SyntheticEvent<HTMLFormElement>) {
         e.preventDefault();
         const trimmedTitle = formTitle.trim();
 
