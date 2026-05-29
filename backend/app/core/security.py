@@ -35,8 +35,10 @@ def get_current_user(request: Request) -> str:
             else:
                 token = auth_header
 
-    # 3. Raise 401 if token is missing
+    # 3. Handle bypass / raise 401 if token is missing
     if not token:
+        if settings.ENVIRONMENT == "development" and settings.DEV_BYPASS_ENABLED:
+            return settings.DEV_MOCK_USER_ID
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Not authenticated: Missing session token",

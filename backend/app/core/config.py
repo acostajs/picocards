@@ -8,6 +8,14 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = "development"
     COOKIE_DOMAIN: str = ".hub.ca"
 
+    # Hub Identity Microservice configurations
+    HUB_INTERNAL_URL: str = "http://localhost:8081"
+    HUB_SYSTEM_API_KEY: str = "dev-system-secret-key"
+
+    # Local development bypass parameters
+    DEV_BYPASS_ENABLED: bool = True
+    DEV_MOCK_USER_ID: str = "dev-student-1"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
