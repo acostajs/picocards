@@ -75,7 +75,7 @@ export function ProjectWorkspace() {
     const [isFlipped, setIsFlipped] = useState(false);
 
     const projectCards = cards.filter((c) => c.project_id === projectId);
-    const activeCard = projectCards[studyIndex];
+    const activeCard = projectCards.at(studyIndex);
 
     // Reset index if deck changes
     // biome-ignore lint/correctness/useExhaustiveDependencies: Reset active indices whenever the projectId routes change.
