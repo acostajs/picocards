@@ -1,4 +1,4 @@
-import { type FormEvent, useEffect, useState } from "react";
+import { type FormEvent as ReactFormEvent, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { type Language, useLanguage } from "../../context/LanguageContext";
 import { useTheme } from "../../context/ThemeContext";
@@ -104,7 +104,7 @@ export function ProjectWorkspace() {
     }
 
     // Submit Card Form
-    function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+    function handleFormSubmit(e: ReactFormEvent<HTMLFormElement>) {
         e.preventDefault();
         const trimmedQ = formQuestion.trim();
         const trimmedA = formAnswer.trim();
