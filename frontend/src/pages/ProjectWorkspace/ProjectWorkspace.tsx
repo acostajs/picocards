@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { NavigationHeader } from "../../components/NavigationHeader";
 import { useTranslation } from "../../hooks/useTranslation";
+import { api } from "../../utils/api";
 import { CollaboratorsPanel } from "./components/CollaboratorsPanel";
 import { CreateCardModal } from "./components/CreateCardModal";
 import { EditModeView } from "./components/EditModeView";
@@ -9,51 +10,6 @@ import { StudyModeView } from "./components/StudyModeView";
 import { useCardDeck } from "./hooks/useCardDeck";
 import { useCollaborators } from "./hooks/useCollaborators";
 import { locales } from "./ProjectWorkspace.locales";
-import type { Card, Collaborator } from "./types";
-
-// STUB: Replace with API fetch in Phase 2
-const initialCards: Card[] = [
-    {
-        id: "card-1",
-        project_id: "proj-1",
-        question: "What is the Schrodinger wave equation?",
-        answer: "An equation that describes how the quantum state of a physical system changes with time, formulated as Hψ = Eψ.",
-    },
-    {
-        id: "card-2",
-        project_id: "proj-1",
-        question: "What is the difference between Sn1 and Sn2 reactions?",
-        answer: "Sn1 is a unimolecular nucleophilic substitution with a carbocation intermediate, while Sn2 is bimolecular with a single-step transition state.",
-    },
-    {
-        id: "card-3",
-        project_id: "proj-2",
-        question: "What is the formula for integration by parts?",
-        answer: "∫ u dv = uv - ∫ v du",
-    },
-    {
-        id: "card-4",
-        project_id: "proj-2",
-        question: "What is the derivative of sin(x)?",
-        answer: "d/dx [sin(x)] = ...",
-    },
-];
-
-// STUB: Replace with API fetch in Phase 2
-const initialCollaborators: Collaborator[] = [
-    {
-        id: "collab-1",
-        project_id: "proj-1",
-        email: "marie.curie@hub.ca",
-        role: "editor",
-    },
-    {
-        id: "collab-2",
-        project_id: "proj-1",
-        email: "albert.einstein@hub.ca",
-        role: "visitor",
-    },
-];
 
 export function ProjectWorkspace() {
     const { projectId } = useParams<{ projectId: string }>();
@@ -70,36 +26,47 @@ export function ProjectWorkspace() {
         handlePrev,
         handleNext,
         handleShuffle,
-    } = useCardDeck(projectId, initialCards);
+    } = useCardDeck(projectId);
 
     const {
         projectCollaborators,
         handleInviteCollaborator,
         handleRemoveCollaborator,
-    } = useCollaborators(projectId, initialCollaborators);
+    } = useCollaborators(projectId);
 
     // States
+    const [project, setProject] = useState<{ title: string } | null>(() => {
+        const stored = localStorage.getItem("picocards_projects");
+        if (stored && projectId) {
+            try {
+                const parsed = JSON.parse(stored) as {
+                    id: string;
+                    title: string;
+                }[];
+                return parsed.find((p) => p.id === projectId) || null;
+            } catch {}
+        }
+        return null;
+    });
     const [viewMode, setViewMode] = useState<
         "study" | "edit" | "collaborators"
     >("study");
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Dynamic Project Name parsing based on dynamic ID from localStorage projects cache
-    const storedProjects = (() => {
-        const stored = localStorage.getItem("picocards_projects");
-        if (stored) {
-            try {
-                return JSON.parse(stored) as { id: string; title: string }[];
-            } catch {}
+    // Fetch fresh project details on mount
+    useEffect(() => {
+        if (projectId) {
+            api.get<{ title: string }>(`/api/projects/${projectId}`)
+                .then((data) => {
+                    setProject(data);
+                })
+                .catch((err) => {
+                    console.error("Failed to fetch project details:", err);
+                });
         }
-        return [
-            { id: "proj-1", title: "Chemistry 101" },
-            { id: "proj-2", title: "Calculus II" },
-        ];
-    })();
+    }, [projectId]);
 
-    const currentProject = storedProjects.find((p) => p.id === projectId);
-    const projectTitle = currentProject ? currentProject.title : t.headline;
+    const projectTitle = project ? project.title : t.headline;
 
     return (
         <div className="layout-shell">

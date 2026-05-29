@@ -28,6 +28,13 @@ class ProjectCollaborator(SQLModel, table=True):
             index=True,
         ),
     )
+    email: str = Field(
+        default="collab@hub.ca",
+        sa_column=sa.Column(
+            sa.String(100),
+            nullable=False,
+        ),
+    )
     role: str = Field(
         sa_column=sa.Column(
             sa.String(20),

@@ -67,6 +67,7 @@ class CollaboratorInvite(BaseModel):
 class CollaboratorRead(BaseModel):
     project_id: str
     user_id: str
+    email: str
     role: str
     joined_at: datetime
 

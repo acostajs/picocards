@@ -65,6 +65,7 @@ async def test_invite_collaborator_success() -> None:
         assert data["project_id"] == project_id
         assert data["user_id"] == "student-collaborator-1"
         assert data["role"] == "editor"
+        assert data["email"] == "collab@hub.ca"
 
 
 @pytest.mark.anyio
@@ -228,3 +229,62 @@ async def test_development_bypass_cookie_endpoint() -> None:
         assert "token" in data
     finally:
         settings.ENVIRONMENT = original_env
+
+
+@pytest.mark.anyio
+async def test_list_collaborators_rbac_rules() -> None:
+    """Test standard RBAC policies when listing collaborators in a project."""
+    token_owner = create_access_token(user_id="student-owner")
+    token_collab = create_access_token(user_id="student-collab")
+    token_external = create_access_token(user_id="student-external")
+
+    async with async_session_maker() as session:
+        project = Project(title="Calculus I", owner_id="student-owner")
+        session.add(project)
+        await session.commit()
+        await session.refresh(project)
+        project_id = project.id
+
+        collab = ProjectCollaborator(
+            project_id=project_id,
+            user_id="student-collab",
+            email="collab@hub.ca",
+            role="editor",
+        )
+        session.add(collab)
+        await session.commit()
+
+    # 1. Owner lists -> Allowed (200)
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url="http://test"
+    ) as ac:
+        res = await ac.get(
+            f"/api/projects/{project_id}/collaborators",
+            cookies={"hub_session": token_owner},
+        )
+    assert res.status_code == 200
+    data = res.json()
+    assert len(data) == 1
+    assert data[0]["user_id"] == "student-collab"
+    assert data[0]["email"] == "collab@hub.ca"
+
+    # 2. Collaborator lists -> Allowed (200)
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url="http://test"
+    ) as ac:
+        res = await ac.get(
+            f"/api/projects/{project_id}/collaborators",
+            cookies={"hub_session": token_collab},
+        )
+    assert res.status_code == 200
+    assert len(res.json()) == 1
+
+    # 3. External lists -> Forbidden (403)
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url="http://test"
+    ) as ac:
+        res = await ac.get(
+            f"/api/projects/{project_id}/collaborators",
+            cookies={"hub_session": token_external},
+        )
+    assert res.status_code == 403
