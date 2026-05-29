@@ -1,4 +1,5 @@
 import { type FormEvent, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { type Language, useLanguage } from "../../context/LanguageContext";
 import { useTheme } from "../../context/ThemeContext";
@@ -231,37 +232,43 @@ export function Dashboard() {
                     /* Project Grid View */
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md w-full mt-space-sm">
                         {projects.map((proj) => (
-                            <section
+                            <Link
                                 key={proj.id}
-                                className="card-surface flex flex-col justify-between gap-space-md hover:scale-[1.01] hover:shadow-md cursor-pointer"
+                                to={`/projects/${proj.id}`}
+                                className="no-underline text-[var(--text-primary)] hover:no-underline flex"
                             >
-                                <div className="flex flex-col gap-space-sm">
-                                    <div className="flex justify-between items-start gap-space-sm">
-                                        <h2 className="text-heading-md text-xl font-bold uppercase tracking-tight">
-                                            {proj.title}
-                                        </h2>
-                                        {/* Delete Button to trigger empty state testing */}
-                                        <button
-                                            type="button"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleDeleteProject(proj.id);
-                                            }}
-                                            className="text-sm font-black text-red-600 hover:text-red-500 hover:scale-110 active:scale-95 transition-all p-1"
-                                            title="Delete Deck"
-                                        >
-                                            ✕
-                                        </button>
+                                <section className="card-surface flex flex-col justify-between gap-space-md hover:scale-[1.01] hover:shadow-md cursor-pointer w-full">
+                                    <div className="flex flex-col gap-space-sm">
+                                        <div className="flex justify-between items-start gap-space-sm">
+                                            <h2 className="text-heading-md text-xl font-bold uppercase tracking-tight">
+                                                {proj.title}
+                                            </h2>
+                                            {/* Delete Button to trigger empty state testing */}
+                                            <button
+                                                type="button"
+                                                onClick={(e) => {
+                                                    e.preventDefault(); // Stop Link navigation trigger
+                                                    e.stopPropagation();
+                                                    handleDeleteProject(
+                                                        proj.id,
+                                                    );
+                                                }}
+                                                className="text-sm font-black text-red-600 hover:text-red-500 hover:scale-110 active:scale-95 transition-all p-1"
+                                                title="Delete Deck"
+                                            >
+                                                ✕
+                                            </button>
+                                        </div>
+                                        <p className="text-body text-sm line-clamp-3">
+                                            {proj.description || "—"}
+                                        </p>
                                     </div>
-                                    <p className="text-body text-sm line-clamp-3">
-                                        {proj.description || "—"}
-                                    </p>
-                                </div>
-                                <div className="text-xs opacity-60 font-mono mt-auto flex justify-between">
-                                    <span>ID: {proj.id}</span>
-                                    <span>{proj.created_at}</span>
-                                </div>
-                            </section>
+                                    <div className="text-xs opacity-60 font-mono mt-auto flex justify-between">
+                                        <span>ID: {proj.id}</span>
+                                        <span>{proj.created_at}</span>
+                                    </div>
+                                </section>
+                            </Link>
                         ))}
                     </div>
                 )}
