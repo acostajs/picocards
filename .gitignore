@@ -1,6 +1,37 @@
-.docs/*.md
+# Root .gitignore for PicoCards monorepo
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project documentation
 .docs/
-.idea
-.venv
-node_modules
-.env    
+
+# Caches and logs
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.eslintcache
+.cache/
+*.log
+
+# Environments and dependencies
+.venv/
+venv/
+node_modules/
+
+# Environment configurations
+.env
+.env.*
+!.env.example
+
+# Build outputs
+dist/
+build/
+out/
